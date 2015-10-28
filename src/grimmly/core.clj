@@ -32,7 +32,7 @@
   "Adds record to the inventory"
   [req]
   (println req)
-  (update-inventory (req-to-body-sha req) (str (-> req :body)))
+  (update-inventory (req-to-body-sha req) (apply str (map char (.bytes (-> req :body)))))
   (println @inventory)
   {:status  200
    :headers {"Content-Type" "text/css"}
@@ -43,7 +43,7 @@
   [req]
   (println req)
   {:status 302
-   :location "https://grimmwa.re"})
+   :headers {"Location" "https://grimmwa.re"}})
 
 (defn reply 
   "Just do a simple http response"
