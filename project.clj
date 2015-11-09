@@ -4,6 +4,7 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0"]
+                 [environ "1.0.1"]
                  [pandect "0.5.4"]
                  [http-kit "2.1.18"]]
   :main ^:skip-aot grimmly.core

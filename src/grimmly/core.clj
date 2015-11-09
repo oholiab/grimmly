@@ -2,11 +2,31 @@
   (:gen-class))
 
 (require '[org.httpkit.server :as serv]
-         '[pandect.algo.sha1 :as alg])
+         '[pandect.algo.sha1 :as alg]
+         '[environ.core :refer [env]])
 
 (def inventory (ref (array-map)))
 (def inventory-size 5)
 
+; Filter out unneeded environment variables for security
+(def propnames
+  '(
+    :ip
+    :port
+    ))
+
+(defn getkeyvalue [hashmap key]
+  (let [value (get hashmap key nil)]
+    (if (nil? value) {} {key value})))
+
+(def properties (apply merge (map #(getkeyvalue env %) propnames)))
+
+; Set default properties
+(def defaults
+  {:ip "127.0.0.1",
+   :port 8080})
+
+; The code
 (defn update-inventory
   "Adds a mapping to the inventory and rotates out old members if the size limit
   has been reached"
@@ -66,4 +86,6 @@
   "Start up the app and keep it going"
   [& args]
   (prn "App started.")
-  (serv/run-server reply {:port 8080}))
+  (let [options (merge defaults properties)]
+    (prn "Using options " options)
+    (serv/run-server reply options)))
