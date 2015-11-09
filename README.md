@@ -14,7 +14,22 @@ Requires leinengen
 
     git clone https://github.com/oholiab/grimmly
     cd grimmly
-    lein run
+    [OPTION=value,..] lein run
+
+Or alternatively you can compile into an uberjar with
+
+    cd grimmly
+    lein uberjar
+
+And supply options using
+
+    java -Doption=value -jar path_to_jar
+
+Options are:
+
+    option [default]: description
+    ip [127.0.0.1]  : The IP address the server should listen on
+    port [8080]     : The port the server should listen on
 
 ## Usage
 
