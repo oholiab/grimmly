@@ -94,4 +94,4 @@ that come in, post them to `localhost:8080` and give you the shortened URL as
 ## Options
 
 The buffer length is fixed in size (5 records at the time of writing for fast
-array-map lookup and because it's a number I typed.
+array-map lookup and because it's a number I typed.)

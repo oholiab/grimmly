@@ -6,13 +6,13 @@
          '[environ.core :refer [env]])
 
 (def inventory (ref (array-map)))
-(def inventory-size 5)
 
 ; Filter out unneeded environment variables for security
 (def propnames
   '(
     :ip
     :port
+    :buffsize
     ))
 
 (defn getkeyvalue [hashmap key]
@@ -24,7 +24,10 @@
 ; Set default properties
 (def defaults
   {:ip "127.0.0.1",
-   :port 8080})
+   :port 8080,
+   :bufsize 10})
+
+(def inventory-size (:buffsize (merge defaults properties)))
 
 ; The code
 (defn update-inventory
