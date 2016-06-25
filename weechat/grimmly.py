@@ -50,7 +50,6 @@ def test_write_url(data, buffer, time, tags, displayed, highlight, prefix, messa
     for url in urlRe.findall(message):
         post_url = w.config_get_plugin('private_server_url')
         get_url = w.config_get_plugin('public_server_url')
-        wee_print("should be %s" % get_url, buffer)
         req = urllib2.Request(post_url, url)
         response = urllib2.urlopen(req)
         shorturl = get_url + '/' + response.read()
