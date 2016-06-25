@@ -3,7 +3,7 @@
 default: image
 
 image:
-	docker build -t grimmly .
+	docker build -m 512m --memory-swap '-1' -t grimmly .
 
 run: image
 	docker kill grimmly | true
