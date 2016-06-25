@@ -31,6 +31,7 @@
   "Adds a mapping to the inventory and rotates out old members if the size limit
   has been reached"
   [k, v]
+  (prn (str "Adding " k "=" v))
   (dosync  
     (ref-set inventory (if (= inventory-size (count @inventory)) 
                          (assoc (apply array-map (flatten (rest @inventory))) k v)
@@ -67,6 +68,7 @@
 (defn redirect-record
   "Redirects to the given record or 404s"
   [req]
+  (prn (str "Request for " (-> req :uri)))
   (let [resp (get @inventory (truncate-uri (-> req :uri)))]
     (if (nil? resp)
       {:status 404}
