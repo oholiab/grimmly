@@ -6,7 +6,7 @@
          '[environ.core :refer [env]])
 
 (def inventory (ref (array-map)))
-(def inventory-size 5)
+(def inventory-size 20)
 
 ; Filter out unneeded environment variables for security
 (def propnames
