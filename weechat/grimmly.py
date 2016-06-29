@@ -53,7 +53,7 @@ def test_write_url(data, buffer, time, tags, displayed, highlight, prefix, messa
         req = urllib2.Request(post_url, url)
         response = urllib2.urlopen(req)
         shorturl = get_url + '/' + response.read()
-        wee_print('%s -> %s' % (shorturl, url), buffer) 
+        wee_print('%s' % shorturl, buffer) 
     return w.WEECHAT_RC_OK
 
 if __name__ == "__main__":
