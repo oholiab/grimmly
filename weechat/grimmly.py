@@ -8,14 +8,14 @@ import urllib2
 
 SCRIPT_NAME    = "grimmly"
 SCRIPT_AUTHOR  = "oholiab <oholiab@grimmwa.re>"
-SCRIPT_VERSION = "1.0"
+SCRIPT_VERSION = "1.1"
 SCRIPT_LICENSE = "MIT"
 SCRIPT_DESC    = "Create short urls in private grimmly URL shortener"
 
 settings = {
         "ignore_prefix" : "^\s+-",
         "private_server_url"    : "http://localhost:8080",
-        "public_server_url"    : "https://grimmwa.re/s"
+        "public_server_url"    : "https://localhost:8080"
 }
 
 if w.register(SCRIPT_NAME, SCRIPT_AUTHOR, SCRIPT_VERSION, SCRIPT_LICENSE,
@@ -35,11 +35,6 @@ testout = open('%s/testoutput' % home, 'a')
 ignoreRe = re.compile(r'(%s)' % w.config_get_plugin('ignore_prefix'))
 
 
-#buffer_name = ''
-
-#urls = {}
-#script_nick = 'url'
-
 def wee_print(message, buffer):
     weechat.prnt(buffer, '-- %s' % message)
 
@@ -57,23 +52,4 @@ def test_write_url(data, buffer, time, tags, displayed, highlight, prefix, messa
     return w.WEECHAT_RC_OK
 
 if __name__ == "__main__":
-
-#        # Set default settings
-        w.hook_print("", "", "://", 1, "test_write_url", "")
-#        w.hook_timer(\
-#            int(w.config_get_plugin('reannounce_wait')) * 1000 * 60,
-#            0,
-#            0,
-#            "purge_cb",
-#            '')
-#        weechat.hook_config('plugins.var.python.%s.ignore_buffers' %SCRIPT_NAME, 'ignore_update', '')
-#    color_chat_delimiters = weechat.color('chat_delimiters')
-#    color_chat_nick       = weechat.color('chat_nick')
-#    color_reset           = weechat.color('reset')
-#    color_chat_buffer     = weechat.color('chat_buffer')
-#    # pretty printing
-#    script_nick = '%s[%s%s%s]%s' %(color_chat_delimiters,
-#                                   color_chat_nick,
-#                                   w.config_get_plugin('global_prefix'),
-#                                   color_chat_delimiters,
-#                                   color_reset)
+    w.hook_print("", "", "://", 1, "test_write_url", "")
