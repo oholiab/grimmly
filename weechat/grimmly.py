@@ -15,7 +15,8 @@ SCRIPT_DESC    = "Create short urls in private grimmly URL shortener"
 settings = {
         "ignore_prefix" : "^\s+-",
         "private_server_url"    : "http://localhost:8080",
-        "public_server_url"    : "https://localhost:8080"
+        "public_server_url"    : "https://localhost:8080",
+        "buffer_blacklist" : ""
 }
 
 if w.register(SCRIPT_NAME, SCRIPT_AUTHOR, SCRIPT_VERSION, SCRIPT_LICENSE,
@@ -33,6 +34,7 @@ urlRe = re.compile(r'(\w+://(?:%s|%s)(?::\d+)?(?:/[^\])>\s]*)?)' % (domain, ipAd
 home = os.environ['HOME']
 testout = open('%s/testoutput' % home, 'a')
 ignoreRe = re.compile(r'(%s)' % w.config_get_plugin('ignore_prefix'))
+blacklist = w.config_get_plugin('buffer_blacklist').split(",")
 
 
 def wee_print(message, buffer):
@@ -43,6 +45,8 @@ def test_write_url(data, buffer, time, tags, displayed, highlight, prefix, messa
     #    wee_print("doing nothing", buffer)
     #    return w.WEECHAT_RC_OK
     for url in urlRe.findall(message):
+        if url in blacklist:
+            return w.WEECHAT_RC_OK
         post_url = w.config_get_plugin('private_server_url')
         get_url = w.config_get_plugin('public_server_url')
         req = urllib2.Request(post_url, url)
