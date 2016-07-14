@@ -44,9 +44,9 @@ def test_write_url(data, buffer, time, tags, displayed, highlight, prefix, messa
     #if not ignoreRe.match(message):
     #    wee_print("doing nothing", buffer)
     #    return w.WEECHAT_RC_OK
+    if weechat.buffer_get_string(buffer, "name") in blacklist:
+        return w.WEECHAT_RC_OK
     for url in urlRe.findall(message):
-        if url in blacklist:
-            return w.WEECHAT_RC_OK
         post_url = w.config_get_plugin('private_server_url')
         get_url = w.config_get_plugin('public_server_url')
         req = urllib2.Request(post_url, url)
