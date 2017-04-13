@@ -13,6 +13,7 @@
   '(
     :ip
     :port
+    :debug
     ))
 
 (defn getkeyvalue [hashmap key]
@@ -24,7 +25,8 @@
 ; Set default properties
 (def defaults
   {:ip "127.0.0.1",
-   :port 8080})
+   :port 8080
+   :debug false})
 
 ; The code
 (defn update-inventory
@@ -32,10 +34,12 @@
   has been reached"
   [k, v]
   (prn (str "Adding " k "=" v))
+  (if (:debug properties) (prn inventory))
   (dosync  
     (ref-set inventory (if (= inventory-size (count @inventory)) 
                          (assoc (apply array-map (flatten (rest @inventory))) k v)
-                         (assoc @inventory k v)))))
+                         (assoc @inventory k v))))
+  (if (:debug properties) (prn inventory)))
 
 (defn shakey
   "Return a short sha from passed in string"
