@@ -1,5 +1,8 @@
 # grimmly
 
+[![Build
+Status](https://travis-ci.org/oholiab/grimmly.svg?branch=master)](https://travis-ci.org/oholiab/grimmly)
+
 A featherweight URL shortener written in clojure for reasons that I can't quite
 fathom. It stores all information in memory using a fixed length buffer, which
 drops the oldest record when inserting after the maximum length has been
