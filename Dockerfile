@@ -12,4 +12,4 @@ RUN lein
 ADD src /grimmly/src
 ADD project.clj /grimmly/project.clj
 RUN lein uberjar
-CMD java -Ddebug=true -Dip=0.0.0.0 -jar /grimmly/target/uberjar/grimmly-0.1.0-SNAPSHOT-standalone.jar
+CMD java -Ddebug=true -Dip=0.0.0.0 -jar /grimmly/target/uberjar/grimmly-0.1.1-standalone.jar
