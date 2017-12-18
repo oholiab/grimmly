@@ -5,7 +5,7 @@
          '[pandect.algo.sha1 :as alg]
          '[environ.core :refer [env]])
 
-(def inventory (ref (array-map)))
+(def inventory (ref []))
 (def inventory-size 50)
 
 ; Filter out unneeded environment variables for security
@@ -35,10 +35,10 @@
   [k, v]
   (prn (str "Adding " k "=" v))
   (if (:debug properties) (prn inventory))
-  (dosync  
-    (ref-set inventory (if (= inventory-size (count @inventory)) 
-                         (assoc (apply array-map (flatten (rest @inventory))) k v)
-                         (assoc @inventory k v))))
+  (dosync
+    (ref-set inventory (if (= inventory-size (count @inventory))
+                         (conj (vec (rest @inventory)) [k v])
+                         (conj @inventory [k v]))))
   (if (:debug properties) (prn inventory)))
 
 (defn shakey
@@ -69,17 +69,21 @@
   [s]
   (apply str (rest s)))
 
+(defn fetch-record
+  [k]
+  (second (last (filter #(= k (first %)) @inventory))))
+
 (defn redirect-record
   "Redirects to the given record or 404s"
   [req]
   (prn (str "Request for " (-> req :uri)))
-  (let [resp (get @inventory (truncate-uri (-> req :uri)))]
+  (let [resp (fetch-record (truncate-uri (-> req :uri)))]
     (if (nil? resp)
       {:status 404}
       {:status 302
        :headers {"Location" resp}})))
 
-(defn reply 
+(defn reply
   "Routes requests"
   [req]
   (let [method (-> req :request-method)]
